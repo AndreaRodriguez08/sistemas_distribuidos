@@ -1,3 +1,18 @@
+const amqp = require('amqplib');
+
+const connection = await amqp.connect('amqp://localhost');
+const channel = await connection.createChannel();
+
+const message = prompt('Enter your message:');
+channel.sendToQueue('server', Buffer.from(`${"Andrea"}: ${message}`));
+
+channel.consume(queue, (msg) => {
+    //sendMessage(msg.content.toString());
+    console.log(msg.content.toString());
+});
+
+
+
 (function () {
     var Message;
     Message = function (arg) {
